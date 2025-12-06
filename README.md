@@ -27,8 +27,9 @@ A simple FastAPI application with a health check endpoint, containerized with Do
    cd GDG
    ```
 
-2. **Install dependencies with uv:**
+2. **Setup Backend:**
    ```bash
+   cd backend
    uv sync
    ```
 
@@ -121,13 +122,16 @@ The container includes an automatic health check:
 
 ```
 GDG/
-├── main.py              # FastAPI application
-├── pyproject.toml       # Project dependencies
-├── Dockerfile           # Docker build configuration
-├── docker-compose.yml   # Docker Compose configuration
-├── .dockerignore        # Docker build exclusions
-├── .gitignore           # Git exclusions
-└── README.md            # This file
+├── backend/
+│   ├── main.py              # FastAPI application
+│   ├── pyproject.toml       # Project dependencies
+│   ├── Dockerfile           # Docker build configuration
+│   ├── .dockerignore        # Docker build exclusions
+│   └── uv.lock             # Lock file
+├── frontend/                # Frontend application (coming soon)
+├── docker-compose.yml       # Docker Compose configuration
+├── .gitignore               # Git exclusions
+└── README.md                # This file
 ```
 
 ## 🔧 Development

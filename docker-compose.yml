@@ -1,6 +1,6 @@
 services:
   api:
-    build: .
+    build: ./backend
     container_name: gdg-api
     ports:
       - "8000:8000"
@@ -13,3 +13,12 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
+
+  frontend:
+    build: ./frontend
+    container_name: gdg-frontend
+    ports:
+      - "3000:80"
+    restart: unless-stopped
+    depends_on:
+      - api
