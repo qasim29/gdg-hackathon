@@ -13,34 +13,34 @@ def add(a: int, b: int) -> int:
     '''Add two numbers'''
     return a + b
 
-alice = create_agent(
+orchestrator = create_agent(
     "google_genai:gemini-2.5-flash-lite",
     tools=[
         add,
         create_handoff_tool(
-            agent_name="Bob",
-            description="Transfer to Bob",
+            agent_name="Content Creation",
+            description="Transfer to Content Creation",
         ),
     ],
-    system_prompt="You are Alice, an addition expert.",
-    name="Alice",
+    system_prompt="You are the Orchestrator. Your main purpose is to use the Pipedream MCP servers to fetch data. After gathering the data, transfer all the content to the Content Creation agent.",
+    name="Orchestrator",
 )
 
-bob = create_agent(
+content_creation = create_agent(
     "google_genai:gemini-2.5-flash-lite",
     tools=[
         create_handoff_tool(
-            agent_name="Alice",
-            description="Transfer to Alice, she can help with math",
+            agent_name="Orchestrator",
+            description="Transfer to Orchestrator, who can help with math",
         ),
     ],
-    system_prompt="You are Bob, you speak like a pirate.",
-    name="Bob",
+    system_prompt="You are the Content Creation Agent, you speak like a pirate.",
+    name="Content Creation",
 )
 
 checkpointer = InMemorySaver()
 workflow = create_swarm(
-    [alice, bob],
-    default_active_agent="Alice"
+    [orchestrator, content_creation],
+    default_active_agent="Orchestrator"
 )
 compiled_agent = workflow.compile(checkpointer=checkpointer)
